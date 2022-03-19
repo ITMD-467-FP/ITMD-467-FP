@@ -1,6 +1,8 @@
-console.log("Starting server...");
-
+require('dotenv').config();
 var express = require('express');;
+
+console.log("Starting server...");
+//console.log(process.env.APPLICATION_SQL_USERNAME);
 
 var app = express();
 
