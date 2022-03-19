@@ -10,7 +10,7 @@ function exitHandler(options, exitCode) {
     dbConn.closeConnection();
     //if (options.cleanup) console.log('clean');
     //if (exitCode || exitCode === 0) console.log(exitCode);
-    if (options.exit) process.exit();
+    if (options.exit) process.exit();//DO NOT DELETE THIS LINE
 }
 
 //do something when app is closing
