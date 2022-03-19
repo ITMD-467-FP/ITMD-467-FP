@@ -3,10 +3,6 @@ console.log("Starting server...");
 var express = require('express');;
 
 var app = express();
-bodyParser = require("body-parser"),
-    swaggerJsdoc = require("swagger-jsdoc"),
-    swaggerUi = require("swagger-ui-express");
-
 
 app.get('/', function (req, res) { //Default api call
     res.send("Hello world!");

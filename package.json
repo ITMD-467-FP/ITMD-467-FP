@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha -w",
-    "devStart": "nodemon server.js",
     "start": "node --openssl-legacy-provider server.js"
   },
   "keywords": [],
