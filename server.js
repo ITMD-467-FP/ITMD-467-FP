@@ -16,7 +16,7 @@ exports.dbConn = dbConn;
 
 serverShutdown.setDbConn(dbConn);
 dbConn.openConnection();
-//End
+//End of DB Connection
 
 app.get('/', function (req, res) { //Default api call
     res.send("Hello world!");
