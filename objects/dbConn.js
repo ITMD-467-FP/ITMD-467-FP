@@ -11,8 +11,8 @@ require('dotenv').config();
 const config = {
     authentication: {
         options: {
-            userName: process.env.APPLICATION_SQL_USERNAME,
-            password: process.env.APPLICATION_SQL_PASSWORD
+            userName: "application",
+            password: "nt7wLoALX$Ku"
         },
         type: "default"
     },
@@ -56,7 +56,7 @@ exports.openConnection = () => {
         if (err) {
             console.error(err.message);
         } else {
-            getAllRows("users");
+            //getAllRows("users");
             console.log("DB Connected.")
         }
     });
@@ -68,3 +68,4 @@ exports.closeConnection = () => {
     connection.close();
     console.log("DB Connection Closed.")
 }
+
