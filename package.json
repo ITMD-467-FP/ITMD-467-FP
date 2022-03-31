@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -w",
+    "test": "mocha -w",
     "start": "node --openssl-legacy-provider server.js"
   },
   "keywords": [],
