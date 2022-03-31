@@ -31,7 +31,7 @@ class TrendAlgorithm {
 
         //Print values array.
         for(let i = 0; i < values.length; i++){
-            console.log(`Term: ${values[i][0]} Occurrences: ${values[i][1]}`);
+            console.log("\x1b[31m", `Term: '${values[i][0]}',`,"\x1b[32m", `Occurrences: ${values[i][1]}`, "\x1b[37m");
         }
     }
 
