@@ -11,7 +11,7 @@ class TrendAlgorithm {
     /*
     Adds the given word to the hashtable with count 1; If it's already there it will increase the count by one.
     */
-    addToHashTable(word){
+    addToHashtable(word){
         if(this.hashtable.containsKey(word)){
             const oldCount = this.hashtable.get(word);
             this.hashtable.remove(word);
