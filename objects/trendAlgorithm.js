@@ -5,8 +5,33 @@ class TrendAlgorithm {
 
     printHashtable(hashtable){
         var keys = hashtable.keys();
+        var values = [];
+
+        //Put into array of tuples.
         for(let i = 0; i < keys.length; i++){
-            console.log(`Key: ${keys[i]} Value: ${hashtable.get(keys[i])}`);
+            //console.log(`Key: ${keys[i]} Value: ${hashtable.get(keys[i])}`);
+            var item = [keys[i], hashtable.get(keys[i])];
+            values.push(item);
+        }
+
+        //Sort into order by value
+        for(let i = 0; i < values.length; i++){
+            if(i+1 < values.length){
+                if(values[i][1] < values[i+1][1]){ //swap if i is less than i + 1;
+                    let temp = values[i];
+                    values[i] = values[i+1];
+                    values[i+1] = temp;
+                    i = -1;
+                }
+            }
+            else{
+                break;
+            }
+        }
+
+        //Print values array.
+        for(let i = 0; i < values.length; i++){
+            console.log(`Term: ${values[i][0]} Occurrences: ${values[i][1]}`);
         }
     }
 
