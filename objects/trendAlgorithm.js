@@ -42,7 +42,7 @@ class TrendAlgorithm {
         this.data = data;
         this.hashtable = new SimpleHashTable();
         this.eachWord(data, this.addToHashtable, this.hashtable);
-        this.printHashtable(this.hashtable);
+        //this.printHashtable(this.hashtable);
     }
 }
 
