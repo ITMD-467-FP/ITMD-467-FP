@@ -7,6 +7,10 @@ var server = 'http://localhost:3000';
 
 //https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d/
 describe("/welcome API Call", function () {
+    console.log("You must run 'npm start' in another terminal before running the api tests.");
+
+    //TODO: add test to check if server is running.
+
     it("Should return a JSON object with status 200.", function (done) {
         chai.request(server)
             .get('/welcome?name=Daniel')
