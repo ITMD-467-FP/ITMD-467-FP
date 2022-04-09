@@ -1,5 +1,10 @@
 'use strict';
 var SimpleHashTable = require('simple-hashtable');
+var filterListJSON = require('./filter.json');
+var filterList = [];
+filterListJSON.forEach((item) => {
+    filterList.push(item.word);
+})
 //https://www.npmjs.com/package/simple-hashtable
 class TrendAlgorithm {    
 
@@ -63,18 +68,23 @@ class TrendAlgorithm {
     Params:y
     data: string to iterate through.
     */
-    eachWord(data, sourceUrl, hashtable) {
+    insert(data, sourceUrl, doFilter) {
         var words = data.split(" ");
 
         for(let i = 0; i < words.length; i++){
             //console.log(words[i]);
-            this.addToHashtable(words[i], sourceUrl, hashtable);
+
+            if(doFilter){
+                if(!filterList.includes(words[i].toLowerCase())){
+                    this.addToHashtable(words[i], sourceUrl, this.hashtable);
+                }
+            }
+            else{
+                this.addToHashtable(words[i], sourceUrl, this.hashtable);
+            }
+            
         }
     }   
-
-    insert(data, sourceUrl){
-        this.eachWord(data, sourceUrl, this.hashtable);
-    }
 
     constructor(){
         this.hashtable = new SimpleHashTable();
