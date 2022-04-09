@@ -63,11 +63,12 @@ class TrendAlgorithm {
         }
     }   
 
-    constructor(data){
-        this.data = data;
-        this.hashtable = new SimpleHashTable();
+    insert(data){
         this.eachWord(data, this.addToHashtable, this.hashtable);
-        //this.printHashtable(this.hashtable);
+    }
+
+    constructor(){
+        this.hashtable = new SimpleHashTable();
     }
 }
 

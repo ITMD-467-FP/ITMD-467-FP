@@ -42,6 +42,8 @@ class RssParser {
             */
 
             callback(output);
+
+            return output;
         })();
     }
 
