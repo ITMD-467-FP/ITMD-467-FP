@@ -62,19 +62,18 @@ class TrendAlgorithm {
     /*
     Params:y
     data: string to iterate through.
-    callback: function to call with each individual word as a parameter. (addToHashtable)
     */
-    eachWord(data, sourceUrl, callback, hashtable) {
+    eachWord(data, sourceUrl, hashtable) {
         var words = data.split(" ");
 
         for(let i = 0; i < words.length; i++){
             //console.log(words[i]);
-            callback(words[i], sourceUrl, hashtable);
+            this.addToHashtable(words[i], sourceUrl, hashtable);
         }
     }   
 
     insert(data, sourceUrl){
-        this.eachWord(data, sourceUrl, this.addToHashtable, this.hashtable);
+        this.eachWord(data, sourceUrl, this.hashtable);
     }
 
     constructor(){
