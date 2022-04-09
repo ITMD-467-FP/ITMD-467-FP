@@ -41,7 +41,7 @@ class RssParser {
             });
             */
 
-            callback(output);
+            callback(output, url);
 
             return output;
         })();
