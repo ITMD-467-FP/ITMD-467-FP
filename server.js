@@ -12,14 +12,13 @@ console.log("Starting server...");
 var app = express();
 
 //DB Connection
-const DbConn = require('./objects/dbConn');
 var serverShutdown = require('./objects/serverShutdown')
-const dbConn = require('./objects/dbConn');
+const DbConn = require('./objects/dbConn');
 
-exports.dbConn = dbConn;
-
+var dbConn = new DbConn();
 serverShutdown.setDbConn(dbConn);
 dbConn.openConnection();
+module.exports.dbConn = dbConn;
 //End of DB Connection
 
 /*
