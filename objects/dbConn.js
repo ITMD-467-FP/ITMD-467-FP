@@ -24,48 +24,57 @@ const config = {
     }
 };
 
-const connection = new Connection(config);
+class DbConn {
 
-//Used for testing
-const getAllRows = (table) => {
-    console.log("Reading rows from the Table...");
+    constructor(){
+        this.connection = new Connection(config);
+    }
 
-    // Read all rows from table
-    const request = new Request(
-        `SELECT * FROM ` + table,
-        (err, rowCount) => {
+    execute(request) {
+        return new Promise((resolve,reject)=>{
+            const response = [];
+          
+            request.on("row", (columns) => {
+              const field = {};
+    
+              columns.forEach((col) => {
+                field[col.metadata.colName] = col.value;
+              });
+    
+              response.push(field);
+            });
+        
+            request.on('error', error => {
+                reject(error)
+            });
+    
+            request.on('done',() => {
+                resolve(response)//Return response as promise
+            }); 
+        
+            this.connection.execSql(request);
+        
+          });
+    }
+
+    openConnection() {
+        this.connection.on("connect", err => {
             if (err) {
                 console.error(err.message);
             } else {
-                console.log(`${rowCount} row(s) returned`);
+                //getAllRows("users");
+                console.log("DB Connected.")
             }
-        }
-    );
-
-    request.on("row", columns => {
-        columns.forEach(column => {
-            console.log("%s\t%s", column.metadata.colName, column.value);
         });
-    });
+    
+        this.connection.connect();
+    }
 
-    connection.execSql(request);
+    closeConnection() {
+        this.connection.close();
+        console.log("DB Connection Closed.")
+    }
 }
 
-exports.openConnection = () => {
-    connection.on("connect", err => {
-        if (err) {
-            console.error(err.message);
-        } else {
-            //getAllRows("users");
-            console.log("DB Connected.")
-        }
-    });
-
-    connection.connect();
-}
-
-exports.closeConnection = () => {
-    connection.close();
-    console.log("DB Connection Closed.")
-}
+module.exports = DbConn;
 
