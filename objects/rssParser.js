@@ -9,7 +9,7 @@ class RssParser {
 
         (async () => {
             let feed = await parser.parseURL(url);
-            
+
             /*
             console.log(feed.title);
             feed.items.forEach(item => {
@@ -21,30 +21,28 @@ class RssParser {
         })();
     }
 
-    async getDataString(url, callback) {
+    async getDataString(url) {
         let parser = new Parser();
 
-        (async () => {
-            let feed = await parser.parseURL(url);
-            
-            var output = feed.title + " ";
-            
-            feed.items.forEach(item => {
-                //console.log(item.title + ':' + item.link);
-                output = output + item.title;
-            });
+        let feed = await parser.parseURL(url);
 
-            /*
-            console.log(feed.title);
-            feed.items.forEach(item => {
-                console.log(item.title + ':' + item.link)
-            });
-            */
+        var output = feed.title + " ";
 
-            callback(output, url);
+        feed.items.forEach(item => {
+            //console.log(item.title + ':' + item.link);
+            output = output + item.title;
+        });
 
-            return output;
-        })();
+        /*
+        console.log(feed.title);
+        feed.items.forEach(item => {
+            console.log(item.title + ':' + item.link)
+        });
+        */
+
+        //callback(output, url);
+
+        return output;
     }
 
     constructor() {
