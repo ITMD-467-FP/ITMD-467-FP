@@ -4,6 +4,7 @@ require('dotenv').config();
 var express = require('express');
 const TrendAlgorithm = require('./objects/trendAlgorithm');
 const RssParser = require('./objects/rssParser');
+const fs = require('fs');
 
 console.log("Starting server...");
 //console.log(process.env.APPLICATION_SQL_USERNAME);
