@@ -73,9 +73,10 @@ class TrendAlgorithm {
 
         for(let i = 0; i < words.length; i++){
             //console.log(words[i]);
+            words[i] = words[i].toLowerCase()
 
             if(doFilter){
-                if(!filterList.includes(words[i].toLowerCase())){
+                if(!filterList.includes(words[i])){
                     this.addToHashtable(words[i], sourceUrl, this.hashtable);
                 }
             }
