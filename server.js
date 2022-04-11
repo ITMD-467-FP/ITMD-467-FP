@@ -17,8 +17,6 @@ const DbConn = require('./objects/dbConn');
 
 var dbConn = new DbConn();
 serverShutdown.setDbConn(dbConn);
-dbConn.openConnection();
-module.exports.dbConn = dbConn;
 //End of DB Connection
 
 /*
@@ -63,6 +61,7 @@ try {
 }
 
 if (!module.parent) {
-    console.log("Listening...");
     module.exports = app.listen(3000);
+    module.exports.dbConn = dbConn;
+    console.log("Listening...");
 }
