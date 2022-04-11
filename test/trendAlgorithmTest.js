@@ -8,8 +8,14 @@ const TrendAlgorithm = require('../objects/trendAlgorithm');
 describe("Trend Algorithm Insert Tests. Input: 'Hi Dan how are you doing today?", function () {
     const alg = new TrendAlgorithm();
     alg.insert("Hi Dan how are you doing today?", "null", false);
+
     it("Should contain a hash table with 7 keys.", function (done) {
         assert.equal(alg.hashtable.keys().length, 7);
+        done();
+    });
+
+    it("Should contain a single source for each term.", function (done) {
+        assert.equal(alg.hashtable.get("Dan")[1].length, 1);
         done();
     });
 });
