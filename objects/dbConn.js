@@ -62,14 +62,6 @@ class DbConn {
         });
     }
 
-    async openConnectionAsync() {
-        await this.pool.connect()
-            .then(pool => {
-                console.log('Database Connected');
-                return pool;
-            })
-    }
-
     closeConnection() {
         //this.connection.close();
         this.pool.close();
