@@ -35,7 +35,7 @@ exports.insertSource = async function insertSource(source, userId) {
         BEGIN
             SELECT source.id, source.url FROM source
             INNER JOIN user_source
-            ON user_source.id = @userId AND user_source.source_id = source.id
+            ON user_source.user_id = @userId AND user_source.source_id = source.id
         END
         ELSE
         BEGIN
@@ -45,10 +45,14 @@ exports.insertSource = async function insertSource(source, userId) {
 
             INSERT INTO user_source(user_id, source_id)
             VALUES (@userId, (SELECT TOP(1) id FROM @NewSourceId));
+
+            SELECT source.id, source.url FROM source
+            INNER JOIN user_source
+            ON user_source.user_id = @userId AND user_source.source_id = source.id;
         END
         `;
 
-       
+        
     });
 }
 
