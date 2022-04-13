@@ -3,7 +3,7 @@ var should = require('chai').should();
 chai.use(chaiHttp);
 assert = chai.assert,
 expect = chai.expect;
-var server = 'http://localhost:3000';
+var server = 'http://localhost:8080';
 
 //https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d/
 describe("/welcome API Call", function () {
