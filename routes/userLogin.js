@@ -25,6 +25,15 @@ Parameters:
 
 //https://www.npmjs.com/package/password-hash
 
+function getUser() {
+    
+}
+
+
+
+function verifyPassword(input, storedHash) {
+    return passwordHash.verify(input, storedHash);
+}
 
 function getAPI(req, res) {
     const email = req.body.email;
