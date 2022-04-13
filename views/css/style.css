@@ -1,0 +1,75 @@
+body{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: auto;
+}
+
+.containerHeading {
+  display: flex;
+  justify-content: center;
+}
+
+.container1 {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: center;
+  padding-bottom: 30px; 
+}
+
+#addsource {
+  
+}
+
+.container2 {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+.trends {
+  text-align: center;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 8px;
+  padding: 5px;
+}
+
+
+
+.addsourcebody{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: auto;
+}
+
+.ascontainerheading {
+  display: flex;
+  justify-content: center;
+}
+
+.ascontainer1 {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+.formfields {
+  display: block;
+  text-align: center;
+}
+
+.ascontainer2 {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+  justify-content: center;
+  padding-bottom: 30px; 
+}
