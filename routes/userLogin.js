@@ -102,8 +102,6 @@ exports.verifyPassword = function verifyPassword(input, storedHash) {
 function getAPI(req, res) {
     const email = req.body.email;
     const password = req.body.password;
-    
-    console.log(passwordHash.generate("hunter123"));
 
     (async () => {
 
