@@ -25,7 +25,7 @@ Parameters:
 
 //https://www.npmjs.com/package/password-hash
 
-exports.getUser = async function getUser(email) {
+async function getUser(email) {
     return new Promise((resolve, reject) => {
         const command = "SELECT TOP(1) * FROM app_user WHERE email = @email;" //TOP(1) limits to one row.
 
@@ -60,7 +60,7 @@ exports.getUser = async function getUser(email) {
     });
 }
 
-exports.getPassword = async function getPassword(email) {
+async function getPassword(email) {
     return new Promise((resolve, reject) => {
         const command = "SELECT TOP(1) password FROM app_user WHERE email = @email;" //TOP(1) limits to one row.
 
@@ -95,7 +95,7 @@ exports.getPassword = async function getPassword(email) {
     });
 }
 
-exports.verifyPassword = function verifyPassword(input, storedHash) {
+function verifyPassword(input, storedHash) {
     return passwordHash.verify(input, storedHash);
 }
 
