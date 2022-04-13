@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/52b922a0-3bd6-4233-a626-a1c2b5a469e1/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/ITMD-467-FP-Web-App-Express",
+    "appService.deploySubpath": "."
+}
