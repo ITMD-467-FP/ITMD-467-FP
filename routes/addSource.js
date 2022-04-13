@@ -1,5 +1,5 @@
 module.exports = function (app) { //receiving "app" instance
-    app.route('/userLogin')
+    app.route('/addSource')
         .post(postAPI)
 }
 
@@ -52,7 +52,36 @@ exports.insertSource = async function insertSource(source, userId) {
         END
         `;
 
+        dbConn.openConnection().then((pool) => {
+            const ps = new sql.PreparedStatement(pool);
+            ps.input('userId', sql.Int)
+            ps.input('source', sql.VarChar)
+
+            ps.prepare(command, err => {
+                if (err) {
+                    console.log(err);
+                }
         
+                ps.execute({
+                    userId: userId,
+                    source: source
+                }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //console.log(result.recordset[0]);
+                        resolve(result.recordset[0]);
+                    }
+        
+                    ps.unprepare(err => {
+                        if (err) {
+                            reject(err);
+                            console.log(err);
+                        }
+                    });
+                });
+            }); 
+        });
     });
 }
 
@@ -63,6 +92,9 @@ function postAPI(req, res) {
     
 
     (async () => {
-
+        insertSource(sourceUrl, userId).then((data) => {
+            res.status(200);
+            res.send(data);
+        })
     })();
 }
