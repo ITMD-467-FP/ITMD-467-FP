@@ -22,7 +22,7 @@ Parameters:
 
 //https://www.npmjs.com/package/password-hash
 
-exports.insertSource = async function insertSource(source, userId) {
+async function insertSource(source, userId) {
     return new Promise((resolve, reject) => {
         const command = `
         DECLARE @NewSourceId TABLE (id INT)
@@ -31,11 +31,13 @@ exports.insertSource = async function insertSource(source, userId) {
             SELECT source.id FROM source
             INNER JOIN user_source
             ON user_source.user_id = @userId
+            WHERE url = @source
         )
         BEGIN
             SELECT source.id, source.url FROM source
             INNER JOIN user_source
             ON user_source.user_id = @userId AND user_source.source_id = source.id
+            WHERE url = @source
         END
         ELSE
         BEGIN
@@ -48,7 +50,8 @@ exports.insertSource = async function insertSource(source, userId) {
 
             SELECT source.id, source.url FROM source
             INNER JOIN user_source
-            ON user_source.user_id = @userId AND user_source.source_id = source.id;
+            ON user_source.user_id = @userId
+            WHERE url = @source;
         END
         `;
 
