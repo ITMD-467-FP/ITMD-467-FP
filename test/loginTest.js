@@ -5,6 +5,8 @@ assert = chai.assert,
 expect = chai.expect;
 var server = 'http://localhost:8080';
 
+//We are using a testing user who will always be in the database.
+
 //https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d/
 describe("API Token Authentication Test", function () {
     //Get user row to test with
