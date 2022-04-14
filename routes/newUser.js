@@ -67,6 +67,7 @@ function insertUser(email, password, fname, lname, res){
 
                 ps.unprepare(err => {
                     if (err) {
+                        res.status(500);
                         console.log(err);
                     }
                 });

@@ -61,7 +61,7 @@ try {
 }
 
 if (!module.parent) {
-    module.exports = app.listen(80);
+    module.exports = app.listen(8080); //1337
     module.exports.dbConn = dbConn;
     console.log("Listening...");
 }

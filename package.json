@@ -4,10 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha -w",
-    "start": "node server.js"
-    "test": "mocha -w",
-    "start": "node --openssl-legacy-provider server.js"
+    "start": "node --openssl-legacy-provider server.js",
+    "test": "mocha -w"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +15,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
     "mssql": "^8.1.0",
     "node-fetch": "^3.2.0",
     "password-hash": "^1.2.2",
