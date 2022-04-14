@@ -1,6 +1,8 @@
+var authorization = require("../objects/authorization");
+
 module.exports = function (app) { //receiving "app" instance
     app.route('/addSource')
-        .post(postAPI)
+        .post(postAPI);
 }
 
 var {
@@ -88,11 +90,11 @@ async function insertSource(source, userId) {
     });
 }
 
-
-function postAPI(req, res) {
+//Runs after the token authorization was successful.
+function authComplete(req, res){
+    
     const userId = req.body.userId;
     const sourceUrl = req.body.sourceUrl;
-    
 
     (async () => {
         insertSource(sourceUrl, userId).then((data) => {
@@ -100,4 +102,8 @@ function postAPI(req, res) {
             res.send(data);
         })
     })();
+}
+
+function postAPI(req, res) {
+    authorization.validateToken(req, res, authComplete)
 }
