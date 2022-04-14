@@ -34,6 +34,8 @@ describe("API Token Authentication Test", function () {
                 res.body.should.have.property('email');
                 res.body.should.have.property('password');
                 res.body.should.have.property('current_secret_token');
+                res.body.id.should.equal(3);
+                res.body.email.should.equal("dtiberi@hawk.iit.edu");
                 done();
             });
     });
