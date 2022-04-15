@@ -7,7 +7,7 @@ var {
     dbConn
 } = require('../server.js');
 var authorization = require("../objects/authorization");
-const UsefulDBQueries = require("../objects/usefulDBQueries");
+const UsefulDBQueries = require("../util/usefulDBQueries");
 
 /*
 Description: Get all of a user's sources from the database given the user id.
