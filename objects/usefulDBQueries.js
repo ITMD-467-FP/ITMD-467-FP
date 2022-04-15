@@ -110,7 +110,7 @@ exports.getAllSources = async (userId, dbConn) => {
                         console.log(err);
                     } else {
                         //console.log(result.recordset[0]);
-                        resolve(result.recordset[0]);
+                        resolve(result.recordset);
                     }
         
                     ps.unprepare(err => {
