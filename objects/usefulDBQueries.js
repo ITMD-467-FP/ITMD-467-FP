@@ -1,13 +1,10 @@
-var {
-    dbConn
-} = require('../server.js');
 const sql = require('mssql')
 
 /*
 Params:
 - email: string, user email address
 */
-exports.getUserByEmail = async (email) => {
+exports.getUserByEmail = async (email, dbConn) => {
     return new Promise((resolve, reject) => {
         const command = `
         SELECT TOP(1) * FROM app_user WHERE email = @email;
@@ -48,7 +45,7 @@ exports.getUserByEmail = async (email) => {
 Params:
 - id: int, user_id
 */
-exports.getUserById = async (id) => {
+exports.getUserById = async (id, dbConn) => {
     return new Promise((resolve, reject) => {
         const command = `
         SELECT TOP(1) * FROM app_user WHERE id = @id;
@@ -89,7 +86,7 @@ exports.getUserById = async (id) => {
 Params:
 - userId: int, user_id
 */
-exports.getAllSources = async (userId) => {
+exports.getAllSources = async (userId, dbConn) => {
     return new Promise((resolve, reject) => {
         const command = `
         SELECT source.id, source.url FROM source 
