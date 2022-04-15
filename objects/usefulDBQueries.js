@@ -85,3 +85,45 @@ exports.getUserById = async (id) => {
     });
 }
 
+/*
+Params:
+- userId: int, user_id
+*/
+exports.getAllSources = async (userId) => {
+    return new Promise((resolve, reject) => {
+        const command = `
+        SELECT source.id, source.url FROM source 
+        INNER JOIN user_source
+        ON user_source.user_id = @userId AND source.id = user_source.source_id;
+        `;
+
+        dbConn.openConnection().then((pool) => {
+            const ps = new sql.PreparedStatement(pool);
+            ps.input('userId', sql.VarChar)
+        
+            ps.prepare(command, err => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                ps.execute({
+                    userId: userId,
+                }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //console.log(result.recordset[0]);
+                        resolve(result.recordset[0]);
+                    }
+        
+                    ps.unprepare(err => {
+                        if (err) {
+                            reject(err);
+                            console.log(err);
+                        }
+                    });
+                });
+            }); 
+        });
+    });
+}
