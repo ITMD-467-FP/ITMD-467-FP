@@ -124,3 +124,46 @@ exports.getAllSources = async (userId, dbConn) => {
         });
     });
 }
+
+/**
+ * 
+ * @param {*} id Id of row to delete
+ * @param {*} table Table to delete from
+ * @returns 
+ */
+exports.deleteFromTable = async (id, table) => {
+    return new Promise((resolve, reject) => {
+        const command = `
+        DELETE FROM ${table} WHERE id = @id;
+        `;
+
+        dbConn.openConnection().then((pool) => {
+            const ps = new sql.PreparedStatement(pool);
+            ps.input('id', sql.VarChar)
+        
+            ps.prepare(command, err => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                ps.execute({
+                    id: id,
+                }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //console.log(result.recordset[0]);
+                        resolve(result.recordset);
+                    }
+        
+                    ps.unprepare(err => {
+                        if (err) {
+                            reject(err);
+                            console.log(err);
+                        }
+                    });
+                });
+            }); 
+        });
+    });
+}
