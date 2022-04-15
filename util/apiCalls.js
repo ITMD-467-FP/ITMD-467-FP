@@ -25,7 +25,7 @@ exports.addSource = async (userId, url, current_secret_token) => {
     });
 }
 
-exports.addUser = async (email, password, fname, lname) => {
+exports.newUser = async (email, password, fname, lname) => {
     return new Promise((resolve, reject) => {
         try {
             axios( { //Create new user
