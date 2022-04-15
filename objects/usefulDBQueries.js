@@ -3,6 +3,10 @@ var {
 } = require('../server.js');
 const sql = require('mssql')
 
+/*
+Params:
+- email: string, user email address
+*/
 exports.getUserByEmail = async (email) => {
     return new Promise((resolve, reject) => {
         const command = `
@@ -40,6 +44,10 @@ exports.getUserByEmail = async (email) => {
     });
 }
 
+/*
+Params:
+- id: int, user_id
+*/
 exports.getUserById = async (id) => {
     return new Promise((resolve, reject) => {
         const command = `
@@ -76,3 +84,4 @@ exports.getUserById = async (id) => {
         });
     });
 }
+
