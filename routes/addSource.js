@@ -105,5 +105,5 @@ function authComplete(req, res){
 }
 
 function postAPI(req, res) {
-    authorization.validateToken(req, res, authComplete)
+    authorization.validateToken(req, res, authComplete);
 }
