@@ -1,6 +1,6 @@
 const { default: axios } = require('axios');
 
-exports.addSource = async (userId, url) => {
+exports.addSource = async (userId, url, current_secret_token) => {
     return new Promise((resolve, reject) => {
         try {
             axios( { 
@@ -11,7 +11,7 @@ exports.addSource = async (userId, url) => {
                     sourceUrl: url
                 },
                 headers: {
-                    [userJson.data.id]: testingUser.current_secret_token,
+                    [userId]: current_secret_token,
                     "Content-Type": "application/json"
                 }
             }).then((JSON) => {
@@ -22,3 +22,4 @@ exports.addSource = async (userId, url) => {
         }
     });
 }
+
