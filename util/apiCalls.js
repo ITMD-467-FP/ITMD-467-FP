@@ -1,5 +1,7 @@
 const { default: axios } = require('axios');
 
+const server = 'http://localhost:8080';
+
 exports.addSource = async (userId, url, current_secret_token) => {
     return new Promise((resolve, reject) => {
         try {
@@ -34,6 +36,28 @@ exports.addUser = async (email, password, fname, lname) => {
                     password: password,
                     fname: fname,
                     lname: lname
+                },
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then((JSON) => {
+                resolve(JSON.data);
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    });
+}
+
+exports.loginUser = async (email, password) => {
+    return new Promise((resolve, reject) => {
+        try {
+            axios( { //Create new user
+                method: "get",
+                url: `${server}/userLogin`,
+                data: {
+                    email: email,
+                    password: password
                 },
                 headers: {
                     "Content-Type": "application/json"
