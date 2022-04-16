@@ -80,7 +80,7 @@ function verifyToken(userToken, bearerToken) {
 module.exports.validateToken = function (req, res, next, bypass) {
     if (bypass) {
         console.log("Request bypassed validation:")
-        console.log(req);
+        //console.log(req);
         next(req, res);
         return;
     } else {
