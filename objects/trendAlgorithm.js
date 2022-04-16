@@ -62,7 +62,7 @@ class TrendAlgorithm {
         let values = this.sortHashtable(hashtable);
         
         for(let i = 0; i < values.length; i++){
-            console.log(values[i][0]);
+            //console.log(values[i][0]);
             JSON[values[i][0]] = {"count":values[i][1][0],"sources":values[i][1][1]};
         }
 
