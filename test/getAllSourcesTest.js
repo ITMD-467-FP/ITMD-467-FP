@@ -33,10 +33,10 @@ const doBefore = async () => {
                     //console.log("userData set");
                 })).then(
                 (res) => {
-                    console.log("Trying to add source 1");
+                    //console.log("Trying to add source 1");
                     ApiCalls.addSource(this.userData.id, "http://feeds.bbci.co.uk/news/world/rss.xml", this.userData.current_secret_token)
                         .then((res) => {
-                            console.log("addSource RETURN");
+                            //console.log("addSource RETURN");
                             //console.log(res);
                             resolve();
                         });
@@ -47,12 +47,52 @@ const doBefore = async () => {
 
 //http://feeds.bbci.co.uk/news/world/rss.xml
 const doAfter = async (userData) => {
-    //console.log("CALLING AFTER");
-    //await UsefulDBQueries.deleteFromTable(userData.id, "app_user");
+    return new Promise((resolve, reject) => {
+        //console.log("CALLING AFTER");
+        //console.log(userData);
+        const DbConn = require('../objects/dbConn');
+        const sql = require('mssql');
+        var dbConn = new DbConn();
+
+        const command = `
+            DELETE FROM app_user WHERE id = @userId;
+            `;
+
+        dbConn.openConnection().then((pool) => {
+            const ps = new sql.PreparedStatement(pool);
+            ps.input('userId', sql.Int)
+        
+            ps.prepare(command, err => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                ps.execute({
+                    userId: userData.id,
+                }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //console.log(result.recordset[0]);
+                        resolve(dbConn);
+                    }
+        
+                    ps.unprepare(err => {
+                        if (err) {
+                            reject(err);
+                            console.log(err);
+                        }
+                    });
+                });
+            }); 
+        });
+    });
 }
 
 //https://blog.logrocket.com/a-quick-and-complete-guide-to-mocha-testing-d0e0ea09f09d/
 describe("getAllSources Tests", function () {
+    const email = "TestEmail@gmail.com";
+    const password = "WaterIsDry";  
 
     before(async function () {
         //console.log("CALLING BEFORE");
@@ -67,7 +107,8 @@ describe("getAllSources Tests", function () {
 
         after(async function () {
             //console.log("CALLING AFTER");
-            await doAfter(userData);
+            const dbConn = await doAfter(userData);
+            dbConn.closeConnection();
         });
 
         const res = await chai.request(server)
@@ -77,11 +118,8 @@ describe("getAllSources Tests", function () {
                 userId: String(userData.id)
             });
         expect(res.status).to.equal(200);
-        console.log(res);
         expect(res.body[0].id).to.be.a('number');
     });
 });
 
 
-const email = "TestEmail@gmail.com";
-const password = "WaterIsDry";
