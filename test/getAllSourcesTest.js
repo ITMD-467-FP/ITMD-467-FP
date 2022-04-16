@@ -32,14 +32,11 @@ const doBefore = async () => {
                     this.userData = loginReturn;
                     //console.log("userData set");
                 })).then(
-                (res) => {
+                async (res) => {
                     //console.log("Trying to add source 1");
-                    ApiCalls.addSource(this.userData.id, "http://feeds.bbci.co.uk/news/world/rss.xml", this.userData.current_secret_token)
-                        .then((res) => {
-                            //console.log("addSource RETURN");
-                            //console.log(res);
-                            resolve();
-                        });
+                    await ApiCalls.addSource(this.userData.id, "http://feeds.bbci.co.uk/news/world/rss.xml", this.userData.current_secret_token)
+                    await ApiCalls.addSource(this.userData.id, "https://abcnews.go.com/abcnews/moneyheadlines", this.userData.current_secret_token)
+                    resolve();
                 }
             );
     });
@@ -100,7 +97,6 @@ describe("getAllSources Tests", function () {
     });
 
     it("Should return status 200 with a source id and url.", async () => {
-        
 
         const userData = await ApiCalls.loginUser(email, password);
 
@@ -124,8 +120,7 @@ describe("getAllSources Tests", function () {
         expect(res.body[0].url).to.be.a('string');
     });
 
-    it("Should return status 403 when an invalid token is used.", async () => {
-        
+    it("Should return two sources.", async () => {
 
         const userData = await ApiCalls.loginUser(email, password);
 
@@ -134,6 +129,28 @@ describe("getAllSources Tests", function () {
 
         after(async function () {
             //console.log("CALLING AFTER");
+            const dbConn = await doAfter(userData);
+            dbConn.closeConnection();
+        });
+
+        const res = await chai.request(server)
+            .get('/getAllSources')
+            .set(String(userData.id), String(userData.current_secret_token))
+            .send({
+                userId: String(userData.id)
+            });
+        expect(res.status).to.equal(200);
+        expect(res.body[0].url).to.not.equal("");
+        expect(res.body[1].url).to.not.equal("");
+        expect(res.body[0].url).to.not.be.undefined;
+        expect(res.body[1].url).to.not.be.undefined;
+    });
+
+    it("Should return status 403 when an invalid token is used.", async () => {
+    
+        const userData = await ApiCalls.loginUser(email, password);
+
+        after(async function () {
             const dbConn = await doAfter(userData);
             dbConn.closeConnection();
         });
