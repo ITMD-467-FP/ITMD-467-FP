@@ -5,6 +5,7 @@ Params:
 - email: string, user email address
 */
 exports.getUserByEmail = async (email, dbConn) => {
+    //console.log("Get user by email");
     return new Promise((resolve, reject) => {
         const command = `
         SELECT TOP(1) * FROM app_user WHERE email = @email;
@@ -131,7 +132,7 @@ exports.getAllSources = async (userId, dbConn) => {
  * @param {*} table Table to delete from
  * @returns 
  */
-exports.deleteFromTable = async (id, table) => {
+exports.deleteFromTable = async (id, table, dbConn) => {
     return new Promise((resolve, reject) => {
         const command = `
         DELETE FROM ${table} WHERE id = @id;
@@ -152,7 +153,7 @@ exports.deleteFromTable = async (id, table) => {
                     if (err) {
                         console.log(err);
                     } else {
-                        //console.log(result.recordset[0]);
+                        console.log(result);
                         resolve(result.recordset);
                     }
         
