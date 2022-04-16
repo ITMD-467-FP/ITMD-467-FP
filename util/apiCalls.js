@@ -3,6 +3,9 @@ const { default: axios } = require('axios');
 const server = 'http://localhost:8080';
 
 exports.addSource = async (userId, url, current_secret_token) => {
+    //console.log("addSource");
+    //console.log(userId);
+    //console.log(current_secret_token);
     return new Promise((resolve, reject) => {
         try {
             axios( { 
@@ -13,12 +16,13 @@ exports.addSource = async (userId, url, current_secret_token) => {
                     sourceUrl: url
                 },
                 headers: {
-                    [userId]: current_secret_token,
+                    [String(userId)]: String(current_secret_token),
                     "Content-Type": "application/json"
                 }
             }).then((JSON) => {
+                //console.log(JSON);
                 resolve(JSON.data);
-            });
+            }).catch(function (error) {console.log(error)});
         } catch (error) {
             console.log(error);
         }
@@ -26,6 +30,7 @@ exports.addSource = async (userId, url, current_secret_token) => {
 }
 
 exports.newUser = async (email, password, fname, lname) => {
+    //console.log("newUser");
     return new Promise((resolve, reject) => {
         try {
             axios( { //Create new user
@@ -42,7 +47,7 @@ exports.newUser = async (email, password, fname, lname) => {
                 }
             }).then((JSON) => {
                 resolve(JSON.data);
-            });
+            }).catch(function (error) {console.log(error)});;
         } catch (error) {
             console.log(error);
         }
@@ -50,6 +55,9 @@ exports.newUser = async (email, password, fname, lname) => {
 }
 
 exports.loginUser = async (email, password) => {
+    //console.log("loginUser");
+    //console.log(email);
+    //console.log(password);
     return new Promise((resolve, reject) => {
         try {
             axios( { //Create new user
@@ -64,7 +72,7 @@ exports.loginUser = async (email, password) => {
                 }
             }).then((JSON) => {
                 resolve(JSON.data);
-            });
+            }).catch(function (error) {console.log(error)});;
         } catch (error) {
             console.log(error);
         }
