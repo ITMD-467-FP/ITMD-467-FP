@@ -88,7 +88,7 @@ async function insertSource(source, userId) {
                     if (err) {
                         console.log(err);
                     } else {
-                        console.log(result);
+                        //console.log(result);
                         resolve(result.recordset[0]);
                     }
         
