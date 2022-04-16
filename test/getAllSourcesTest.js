@@ -94,12 +94,14 @@ describe("getAllSources Tests", function () {
     const email = "TestEmail@gmail.com";
     const password = "WaterIsDry";  
 
-    before(async function () {
+    beforeEach(async function () {
         //console.log("CALLING BEFORE");
         await doBefore();
     });
 
-    it("Should return status 200.", async () => {
+    it("Should return status 200 with a source id and url.", async () => {
+        
+
         const userData = await ApiCalls.loginUser(email, password);
 
         //console.log("DO TEST");
@@ -119,7 +121,32 @@ describe("getAllSources Tests", function () {
             });
         expect(res.status).to.equal(200);
         expect(res.body[0].id).to.be.a('number');
+        expect(res.body[0].url).to.be.a('string');
     });
+
+    it("Should return status 403 when an invalid token is used.", async () => {
+        
+
+        const userData = await ApiCalls.loginUser(email, password);
+
+        //console.log("DO TEST");
+        //console.log(userData);
+
+        after(async function () {
+            //console.log("CALLING AFTER");
+            const dbConn = await doAfter(userData);
+            dbConn.closeConnection();
+        });
+
+        const res = await chai.request(server)
+            .get('/getAllSources')
+            .set(String(userData.id), String(userData.current_secret_token) + "BLAH")
+            .send({
+                userId: String(userData.id)
+            });
+        expect(res.status).to.equal(403);
+    });
+
 });
 
 
