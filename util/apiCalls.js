@@ -63,7 +63,7 @@ exports.loginUser = async (email, password) => {
             axios( { //Create new user
                 method: "get",
                 url: `${server}/userLogin`,
-                data: {
+                params: {
                     email: email,
                     password: password
                 },

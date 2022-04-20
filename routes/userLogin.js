@@ -90,8 +90,13 @@ async function getPassword(email) {
                     if (err) {
                         console.log(err);
                     } else {
-                        //console.log(result.recordset[0].password);
-                        resolve(result.recordset[0].password);
+                        //console.log(result.recordset);
+                        try {
+                            resolve(result.recordset[0].password);
+                        } catch (error) {
+                            console.log(error);
+                            reject(error);
+                        }
                     }
         
                     ps.unprepare(err => {

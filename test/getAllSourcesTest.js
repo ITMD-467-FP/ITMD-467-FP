@@ -112,6 +112,7 @@ describe("getAllSources Tests", function () {
         const res = await chai.request(server)
             .get('/getAllSources')
             .set(String(userData.id), String(userData.current_secret_token))
+            .query({ userId: userData.id})
             .send({
                 userId: String(userData.id)
             });
@@ -136,6 +137,7 @@ describe("getAllSources Tests", function () {
         const res = await chai.request(server)
             .get('/getAllSources')
             .set(String(userData.id), String(userData.current_secret_token))
+            .query({ userId: userData.id})
             .send({
                 userId: String(userData.id)
             });
@@ -157,7 +159,8 @@ describe("getAllSources Tests", function () {
 
         const res = await chai.request(server)
             .get('/getAllSources')
-            .set(String(userData.id), String(userData.current_secret_token) + "BLAH")
+            .set(String(userData.id), String(userData.current_secret_token) +"WRONG")
+            .query({ userId: userData.id})
             .send({
                 userId: String(userData.id)
             });
