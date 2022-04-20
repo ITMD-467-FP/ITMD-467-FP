@@ -135,7 +135,10 @@ function getAPI(req, res) {
                 })
             }
             else {
-                res.send("{'error': 'Invalid username or password.'}");
+                var failedLoginObject = {
+                    error: 'Invalid username or password.'
+                }
+                res.send(failedLoginObject);
             }
         })
         //res.status(200);
