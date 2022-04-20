@@ -111,8 +111,12 @@ function verifyPassword(input, storedHash) {
 }
 
 function getAPI(req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+    //const email = req.body.email;
+    //const password = req.body.password;
+
+    //Moved to url. Def a security issue that needs to be fixed later.
+    const email = req.query.email;
+    const password = req.query.password;
 
     (async () => {
 
