@@ -24,7 +24,10 @@ Parameters:
 
 //Runs after the token authorization was successful.
 async function authComplete(req, res) {
-    const userId = req.body.userId;
+    //const userId = req.body.userId;
+
+    //Moved to url. Def a security issue that needs to be fixed later.
+    const userId = req.query.userId;
 
     let trends = new TrendAlgorithm();
     let parser = new RssParser();

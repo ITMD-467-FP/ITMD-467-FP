@@ -21,7 +21,10 @@ Parameters:
 
 //Runs after the token authorization was successful.
 function authComplete(req, res){
-    const userId = req.body.userId;
+    //const userId = req.body.userId;
+
+    //Moved to url. Def a security issue that needs to be fixed later.
+    const userId = req.query.userId;
 
     (async () => {
         UsefulDBQueries.getAllSources(userId, dbConn).then(
