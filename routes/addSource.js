@@ -31,15 +31,29 @@ async function insertSource(source, userId) {
 
         IF EXISTS (
             SELECT source.id FROM source
-            INNER JOIN user_source
-            ON user_source.user_id = @userId
             WHERE url = @source
         )
         BEGIN
-            SELECT source.id, source.url FROM source
-            INNER JOIN user_source
-            ON user_source.user_id = @userId AND user_source.source_id = source.id
-            WHERE url = @source
+            IF EXISTS (
+				SELECT * FROM user_source
+				WHERE user_id = @userId AND source_id = (SELECT id FROM source WHERE url = @source)
+			)
+			BEGIN
+				SELECT source.id, source.url FROM source
+				INNER JOIN user_source
+				ON user_source.user_id = @userId
+				WHERE url = @source;
+			END
+			ELSE
+			BEGIN
+				INSERT INTO user_source(user_id, source_id)
+            	VALUES (@userId, (SELECT id FROM source WHERE url = @source));
+
+				SELECT source.id, source.url FROM source
+				INNER JOIN user_source
+				ON user_source.user_id = @userId
+				WHERE url = @source;
+			END
         END
         ELSE
         BEGIN
@@ -74,7 +88,7 @@ async function insertSource(source, userId) {
                     if (err) {
                         console.log(err);
                     } else {
-                        //console.log(result.recordset[0]);
+                        //console.log(result);
                         resolve(result.recordset[0]);
                     }
         
@@ -105,5 +119,5 @@ function authComplete(req, res){
 }
 
 function postAPI(req, res) {
-    authorization.validateToken(req, res, authComplete)
+    authorization.validateToken(req, res, authComplete);
 }

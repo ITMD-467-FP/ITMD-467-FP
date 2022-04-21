@@ -9,10 +9,24 @@ filterListJSON.forEach((item) => {
 class TrendAlgorithm {    
 
     printHashtable(hashtable){
+        
+        let values = this.sortHashtable(hashtable);
+        //Print values array.
+        for(let i = 0; i < values.length; i++){
+            //console.log(JSON.stringify(values[i]))
+            console.log("\x1b[31m", `Term: '${values[i][0]}',`,"\x1b[32m", `Occurrences: ${values[i][1][0]},`, "\x1b[34m", `Sources: ${values[i][1][1]}`, "\x1b[37m");
+        }
+    }
+
+    /**
+     * Sorts hashtable by number of occurrences. 
+     * Returns an array of values.
+     * @param {*} hashtable 
+     */
+    sortHashtable(hashtable) {
         var keys = hashtable.keys();
         var values = [];
-        
-
+    
         //Put into array of tuples.
         for(let i = 0; i < keys.length; i++){
             //console.log(`Key: ${keys[i]} Value: ${hashtable.get(keys[i])}`);
@@ -35,11 +49,24 @@ class TrendAlgorithm {
             }
         }
 
-        //Print values array.
+        return values;
+    }
+
+    /**
+     * Converts hashtable to sorted json array.
+     * @param {*} hashtable 
+     */
+    toJSON(hashtable){
+        let JSON = {};
+
+        let values = this.sortHashtable(hashtable);
+        
         for(let i = 0; i < values.length; i++){
-            //console.log(JSON.stringify(values[i]))
-            console.log("\x1b[31m", `Term: '${values[i][0]}',`,"\x1b[32m", `Occurrences: ${values[i][1][0]},`, "\x1b[34m", `Sources: ${values[i][1][1]}`, "\x1b[37m");
+            //console.log(values[i][0]);
+            JSON[values[i][0]] = {"count":values[i][1][0],"sources":values[i][1][1]};
         }
+
+        return JSON;
     }
 
     /*

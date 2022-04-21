@@ -1,7 +1,5 @@
 let Parser = require('rss-parser');
 
-
-
 class RssParser {
 
     async getData(url, callback) {
@@ -22,27 +20,32 @@ class RssParser {
     }
 
     async getDataString(url) {
-        let parser = new Parser();
+        return new Promise((resolve, reject) => {
+            let parser = new Parser();
 
-        let feed = await parser.parseURL(url);
+            //console.log("ASKING FOR PARSE");
+            parser.parseURL(url).then((feed) => {
+                //console.log("PARSE COMPLETE");
+                var output = feed.title + " ";
 
-        var output = feed.title + " ";
+                feed.items.forEach(item => {
+                    //console.log(item.title + ':' + item.link);
+                    output = output + item.title;
+                });
 
-        feed.items.forEach(item => {
-            //console.log(item.title + ':' + item.link);
-            output = output + item.title;
+                /*
+                console.log(feed.title);
+                feed.items.forEach(item => {
+                    console.log(item.title + ':' + item.link)
+                });
+                */
+
+                //callback(output, url);
+
+                resolve(output);
+                //return output;
+            });
         });
-
-        /*
-        console.log(feed.title);
-        feed.items.forEach(item => {
-            console.log(item.title + ':' + item.link)
-        });
-        */
-
-        //callback(output, url);
-
-        return output;
     }
 
     constructor() {

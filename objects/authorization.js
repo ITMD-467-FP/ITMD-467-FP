@@ -10,10 +10,12 @@ The process I have in mind for authentication
 - Dan Tiberi
 */
 
-var { dbConn } = require('../server.js');
+var {
+    dbConn
+} = require('../server.js');
 const sql = require('mssql')
 
-async function getUserToken(userId){
+async function getUserToken(userId) {
     return new Promise((resolve, reject) => {
         const command = `
             SELECT current_secret_token FROM app_user WHERE id = @userId;
@@ -27,7 +29,7 @@ async function getUserToken(userId){
                 if (err) {
                     console.log(err);
                 }
-        
+
                 ps.execute({
                     userId: userId,
                 }, (err, result) => {
@@ -37,7 +39,7 @@ async function getUserToken(userId){
                         //console.log(result.recordset[0]);
                         resolve(result.recordset[0].current_secret_token);
                     }
-        
+
                     ps.unprepare(err => {
                         if (err) {
                             reject(err);
@@ -45,13 +47,13 @@ async function getUserToken(userId){
                         }
                     });
                 });
-            }); 
+            });
         });
     });
 }
 
 //let jwt = require('jsonwebtoken');
-function verifyToken(userToken, bearerToken){
+function verifyToken(userToken, bearerToken) {
     /*
     jwt.verify(bearerToken, userToken, (err, result) => { //Verify token matches secret key
         if (err) {
@@ -61,41 +63,50 @@ function verifyToken(userToken, bearerToken){
         }
     })
     */
-   if(userToken == bearerToken){
-       return true;
-   }
-   else{
-       return false;
-   }
+    if (userToken == bearerToken) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
-module.exports.validateToken = function (req, res, next) {
-    //Get user's token from their id
-    //console.log(req.headers);
-
-    var token = req.headers[Object.keys(req.headers)[0]];//Retrieve token from header 
-    var userId = Object.keys(req.headers)[0]; //Retrieve userId from fist item key in header
-    if (typeof token !== 'undefined') { //If the request does have a token in the header
-        getUserToken(userId).then(
-            (userToken) => {
-                if(userToken){//Not empty and not null. 
-                    if(verifyToken(userToken, token)) { //Token is validated
-                        next(req, res);
-                    }
-                    else{
-                        console.log("Invalid token");
+/**
+ * 
+ * @param {*} req Incoming request
+ * @param {*} res Outbound response
+ * @param {*} next Callback
+ * @param {*} bypass Boolean. If true, will skip validation. Useful for testing.
+ */
+module.exports.validateToken = function (req, res, next, bypass) {
+    if (bypass) {
+        console.log("Request bypassed validation:")
+        //console.log(req);
+        next(req, res);
+        return;
+    } else {
+        var token = req.headers[Object.keys(req.headers)[0]]; //Retrieve token from header 
+        var userId = Object.keys(req.headers)[0]; //Retrieve userId from fist item key in header
+        if (typeof token !== 'undefined') { //If the request does have a token in the header
+            getUserToken(userId).then(
+                (userToken) => {
+                    if (userToken) { //Not empty and not null. 
+                        if (verifyToken(userToken, token)) { //Token is validated
+                            next(req, res);
+                            return;
+                        } else {
+                            console.log("Invalid token");
+                            res.sendStatus(403);
+                        }
+                    } else { // No token was ever generated meaning the user didn't log in. 
+                        console.log("No token was ever generated meaning the user didn't log in.")
                         res.sendStatus(403);
                     }
                 }
-                else{ // No token was ever generated meaning the user didn't log in. 
-                    console.log("No token was ever generated meaning the user didn't log in.")
-                    res.sendStatus(403);
-                }
-            }
-        );
-    } else { //There is no authorization header
-        console.log("No token in header");
-        res.sendStatus(403); 
+            );
+        } else { //There is no authorization header
+            console.log("No token in header");
+            res.sendStatus(403);
+        }
     }
 }
 

@@ -13,7 +13,7 @@ describe("API Token Authentication Test", function () {
     it("Should return a JSON object with status 200.", function (done) {
         chai.request(server)
             .get('/userLogin')
-            .send({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})//Set body
+            .query({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})
             .end(function (err, res) {
                 should.exist(res.body);
                 res.should.have.status(200);
@@ -25,7 +25,7 @@ describe("API Token Authentication Test", function () {
     it("Should respond with the user's row in the database.", function (done) {
         chai.request(server)
             .get('/userLogin')
-            .send({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})//Set body
+            .query({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})
             .end(function (err, res) {
                 should.exist(res.body);
                 res.should.have.status(200);
@@ -45,7 +45,7 @@ describe("API Token Authentication Test", function () {
     it("Should respond with a populated current_secret_token", function (done) {
         chai.request(server)
             .get('/userLogin')
-            .send({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})//Set body
+            .query({email: 'dtiberi@hawk.iit.edu', password: 'hunter123'})
             .end(function (err, res) {
                 should.exist(res.body);
                 res.should.have.status(200);

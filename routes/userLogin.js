@@ -90,8 +90,13 @@ async function getPassword(email) {
                     if (err) {
                         console.log(err);
                     } else {
-                        //console.log(result.recordset[0].password);
-                        resolve(result.recordset[0].password);
+                        //console.log(result.recordset);
+                        try {
+                            resolve(result.recordset[0].password);
+                        } catch (error) {
+                            console.log(error);
+                            reject(error);
+                        }
                     }
         
                     ps.unprepare(err => {
@@ -111,8 +116,12 @@ function verifyPassword(input, storedHash) {
 }
 
 function getAPI(req, res) {
-    const email = req.body.email;
-    const password = req.body.password;
+    //const email = req.body.email;
+    //const password = req.body.password;
+
+    //Moved to url. Def a security issue that needs to be fixed later.
+    const email = req.query.email;
+    const password = req.query.password;
 
     (async () => {
 
@@ -131,7 +140,10 @@ function getAPI(req, res) {
                 })
             }
             else {
-                res.send("{'error': 'Invalid username or password.'}");
+                var failedLoginObject = {
+                    error: 'Invalid username or password.'
+                }
+                res.send(failedLoginObject);
             }
         })
         //res.status(200);
