@@ -52,10 +52,13 @@ fs.readdir("./routes", (err, files) => {
 //Replaces body parser
 app.use(express.json());
 
-//Enable cors
+//Enable cors https://www.section.io/engineering-education/how-to-use-cors-in-nodejs-with-express/
 try {
     var cors = require('cors');
-    app.use(cors());
+    app.use(cors({
+        origin: '*'
+        //origin: ['https://itmd-467-fp.github.io/ITMD-467-FP-Frontend/', 'localhost', 'http://127.0.0.1:5500/'] //origin: '*'
+    }));
 } catch (error) {
     console.log(error);
 }
