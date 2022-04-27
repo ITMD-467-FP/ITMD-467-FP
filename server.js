@@ -56,7 +56,8 @@ app.use(express.json());
 try {
     var cors = require('cors');
     app.use(cors({
-        origin: ['https://itmd-467-fp.github.io/ITMD-467-FP-Frontend/', 'localhost', 'http://127.0.0.1:5500/']
+        origin: '*'
+        //origin: ['https://itmd-467-fp.github.io/ITMD-467-FP-Frontend/', 'localhost', 'http://127.0.0.1:5500/'] //origin: '*'
     }));
 } catch (error) {
     console.log(error);
