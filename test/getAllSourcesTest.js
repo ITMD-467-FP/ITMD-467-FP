@@ -21,8 +21,8 @@ var server = 'http://localhost:8080';
 //Init db variables before test
 const doBefore = async () => {
     return new Promise((resolve, reject) => {
-        const email = "TestEmail@gmail.com";
-        const password = "WaterIsDry"
+        const email = "danny.tiberi@gmail.com";
+        const password = "hunter456"
         //Create new user
         ApiCalls.newUser(email, password, "Mr", "Testingson")
             .then((res) => ApiCalls.loginUser(email, password)
