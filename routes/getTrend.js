@@ -1,5 +1,5 @@
 module.exports = function (app) { //receiving "app" instance
-    app.route('/findTrends')
+    app.route('/getTrend')
         .get(getAPI);
 }
 
@@ -20,6 +20,7 @@ Method: get
 Parameters: 
 - In url:
     - userId: id of the user to query against.
+    - term: term to search for.
 */
 
 //Runs after the token authorization was successful.
@@ -28,9 +29,15 @@ async function authComplete(req, res) {
 
     //Moved to url. Def a security issue that needs to be fixed later.
     const userId = req.query.userId;
+    const term = req.query.term;
 
     let trends = new TrendAlgorithm();
     let parser = new RssParser();
+
+    if (!typeof term === 'string') {
+        res.status(500);
+        res.send("Invalid term. Term was not a string");
+    }
     
     let sources = [];
 
@@ -50,9 +57,22 @@ async function authComplete(req, res) {
             console.log(error);
         }
     }
+
+    //Check if param is in trends
+    let data = trends.hashtable.get(term);
+    //console.log(data);
+    if(data != -1){
+        res.status(200);
+        res.send(data);
+    }
+    else{
+        var failedGetTrendObject = {
+            error: `The term ${term} was not found in the list of trends.`
+        }
+        res.status(200);
+        res.send(failedGetTrendObject);
+    }
     
-    res.status(200);
-    res.send(trends.toJSON(trends.hashtable));
 }
 
 function getAPI(req, res) {
