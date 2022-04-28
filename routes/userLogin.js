@@ -17,7 +17,7 @@ Description:
 Method: Get
 
 Parameters: 
-- In Body:
+- In url:
     - email : string
     - password : string
 

@@ -18,7 +18,7 @@ Description: Get all of a user's sources, calculate the trends, return the hasht
 Method: get
 
 Parameters: 
-- In Body:
+- In url:
     - userId: id of the user to query against.
 */
 
