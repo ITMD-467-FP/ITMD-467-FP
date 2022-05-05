@@ -26,7 +26,42 @@ Parameters:
 //https://www.npmjs.com/package/password-hash
 
 async function removeSource(sourceId, userId) {
-   
+    return new Promise((resolve, reject) => {
+        const command = `
+        DELETE FROM user_source WHERE user_id = @userId and source_id = @sourceId;
+        `;
+
+        dbConn.openConnection().then((pool) => {
+            const ps = new sql.PreparedStatement(pool);
+            ps.input('userId', sql.Int)
+            ps.input('sourceId', sql.Int)
+
+            ps.prepare(command, err => {
+                if (err) {
+                    console.log(err);
+                }
+        
+                ps.execute({
+                    userId: userId,
+                    sourceId: sourceId
+                }, (err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        //console.log(result);
+                        resolve(result);
+                    }
+        
+                    ps.unprepare(err => {
+                        if (err) {
+                            reject(err);
+                            console.log(err);
+                        }
+                    });
+                });
+            }); 
+        });
+    });
 }
 
 //Runs after the token authorization was successful.
